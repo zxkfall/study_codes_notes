@@ -196,6 +196,48 @@ run container and enter it(interactive 交互的)
 docker run -it <imageId>
 ```
 
+Dockerfiel
+```
+FROM node # 基于已经构建好的node镜像开始构建
+
+WORKDIR /app # 指定工作路径，后续所有的命令都从这个路径开始执行
+
+COPY . /app # 把容器之外的路径下的文件拷贝到容器内的对应app路径下，因为前面指定了工作路径(也可以写成./ 这样就是相对路径)
+
+RUN npm install # RUN是构建镜像时执行
+
+EXPOSE 80 # 暴露端口，只是声明暴露这个端口，如果运行时没有通过-p指定是无法访问的
+
+CMD ["node", "server.js"] # CMD是运行容器时执行，只有最后一个会生效，可以通过命令行覆盖，因为这里执行的这个命令不会停止，所以容器会一直运行
+
+```
+
+##### layers
+
+docker是基于layer的，所以如果每层没有什么变化，docker会缓存每层，这样构建docker image时，就会非常快；
+Image是只读的；
+Container相当于在原有的image上又加了一层Read-Write
+
+所以上面的代码进行一些优化
+```
+FROM node 
+
+WORKDIR /app 
+
+COPY package.json /app
+
+RUN npm install 
+
+COPY . /app
+
+EXPOSE 80 
+
+CMD ["node", "server.js"] 
+```
+
+因为依赖变动会更小一些，所以如果只是代码改变了，依赖没有改变，那么`npm install`层就可以使用缓存，从而加快构建速度；
+
+
 #### Data & Volumes
 
 #### Containers & Networking
@@ -225,3 +267,29 @@ docker run -it <imageId>
 ### Docker compose
 
 ### Kubernetes
+
+
+### COMMAND
+
+```
+docker ps
+docker ps -a
+docker build .
+docker run <imageId>
+docker run -it <imageId>
+docker run -p <hostPort>:<containerPort> <imageId>
+docker rm <containerId>
+docker stop <containerId>
+
+```
+
+### Script
+```
+FROM
+COPY . ./app
+COPY . /app
+WORKDIR /app
+RUN 
+CMD
+
+```
