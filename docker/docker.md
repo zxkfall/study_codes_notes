@@ -110,3 +110,118 @@ Docker把App和Lib文件打包成一个镜像，采用类似多次快照的存�
 除了docker以外，还有很多其他的容器；
 windows由于使用微内核，而且内核和各种运行库耦合紧密，虽然从windows10开始也支持容器，但实际上还是通过Hyper-V运行不同的虚拟机进行内核级隔离，虽然也有线程级隔离，但是只有Windows Server支持，而且只能运行相同版本的镜像；即使是Hyper-V也支持运行更低版本的镜像而不能运行更高版本的镜像，而且Windows容器的镜像体积通常还是很大；
 
+### Install Docker
+
+[Docker desktop](https://docs.docker.com/desktop/)
+Or
+Colima(For mac)
+
+Docker Engine
+Docker Desktop(Daemon & CLI)
+
+
+### First Docker project
+
+init node project
+```
+npm init
+```
+install packages
+```
+npm install <package name>
+```
+
+run
+```
+node <main js file>
+```
+
+build image
+```
+docker build .
+```
+
+run container
+```
+docker run -p <localPort>:<dockerPort> <imageId>
+```
+
+list all running container
+```
+docker ps
+```
+
+stop container
+```
+docker stop <container-id>
+```
+
+error getting credentials - err: exec: "docker-credential-desktop": executable file not found in $PATH, out
+```
+rm ~/.docker/config.json
+colima delete
+colima start
+https://stackoverflow.com/questions/65896681/exec-docker-credential-desktop-exe-executable-file-not-found-in-path
+```
+
+### Foundation
+
+#### Images & Containers
+
+```
++-----Container----+  +-----Container----+  +-----Container-----+  
+|  Running NodeJS  |  |  Running NodeJS  |  |  Running NodeJS   |
+|   App            |  |     App          |  |  App              |  
++--------+---------+  +---------+--------+  +----------+--------+ 
+         |                      |                      |
+         +----------------------+----------------------+          
+                                |  
+                                |
+                    +---------Image----------+ 
+                    |    NodeJS App Code     |
+                    |    NodeJS Environment  |
+                    +-----------+------------+
+```
+
+Image是运行程序的模板，包含运行环境，代码等；
+Container是具体运行程序等实例，基于一个Image可以运行多个Containers；
+
+show all containers include stopping status (ps: process 进程)
+```
+docker ps -a
+```
+
+run container and enter it(interactive 交互的)
+```
+docker run -it <imageId>
+```
+
+#### Data & Volumes
+
+#### Containers & Networking
+
+### Real Life
+
+#### Multi-Container Projects
+
+#### Using Docker-Compose
+
+#### Utility Containers
+
+#### Deploying Docker Containers
+
+### Kubernetes
+
+#### Kubernetes Introduction & Basics
+
+#### Kubernetes: Data & Volumes
+
+#### Kubernetes: Networking
+
+#### Deploying a Kubernetes Cluster
+
+### Docker Hub
+
+### Docker compose
+
+### Kubernetes
