@@ -348,7 +348,15 @@ docker volume inspect <volumeName>
 ```
 docker run -p 3000:8000 --env PORT=8000 -d --rm --name fn1 -v feedback:/app/feedback -v "/Users/xingkun.zhang/Documents/Study/study_codes_notes/docker/data-volumes-01-starting-setup:/app:ro" -v /app/temp -v /app/node_modules feedback-node:1
 ```
-`docker history <imageName>` 可以看到硬编码到docker中的环境变量，所以
+`docker history <imageName>` 可以看到硬编码到docker中的环境变量，所以不要把敏感信息放到Dockerfile中
+
+##### build arg
+
+```
+ARG
+
+docker build -t feedback-node:1 --build-arg DEFAULT_PORT=8000 .
+```
 
 #### Containers & Networking
 
@@ -387,6 +395,7 @@ docker ps -a
 docker images
 docker build .
 docker build -t test:latest . 
+docker build -t feedback-node:1 --build-arg DEFAULT_PORT=8000 .
 docker images -f dangling=true
 docker run <imageId>
 docker run -it <imageId>
@@ -394,6 +403,7 @@ docker run -p <hostPort>:<containerPort> --name <containerName> <imageId>
 docker run -d <imageId>
 docker run --rm <imageId> # 退出容器时自动删除
 docker run -p 3000:80 -d --rm --name fn1 -v feedback:/app/feedback feedback-node:1
+docker run -p 3000:8000 --env PORT=8000 -d --rm --name fn1 -v feedback:/app/feedback -v "/Users/xingkun.zhang/Documents/Study/study_codes_notes/docker/data-volumes-01-starting-setup:/app:ro" -v /app/temp -v /app/node_modules feedback-node:1
 docker rm <containerId>
 docker stop <containerId>
 docker attach <containerId>
@@ -424,4 +434,6 @@ COPY . /app
 WORKDIR /app
 RUN 
 CMD
+ARG
+ENV
 ```
