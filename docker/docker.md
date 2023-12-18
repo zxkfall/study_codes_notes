@@ -216,7 +216,8 @@ CMD ["node", "server.js"] # CMD是运行容器时执行，只有最后一个会�
 
 docker是基于layer的，所以如果每层没有什么变化，docker会缓存每层，这样构建docker image时，就会非常快；
 Image是只读的；
-Container相当于在原有的image上又加了一层Read-Write
+Container相当于在原有的image上又加了一层Read-Write；
+所以实际上存在于Image中的code和Environment即使创建了多个容器，实际上也只有一份，也就是保存在image中的那一份；
 
 所以上面的代码进行一些优化
 ```
@@ -237,7 +238,25 @@ CMD ["node", "server.js"]
 
 因为依赖变动会更小一些，所以如果只是代码改变了，依赖没有改变，那么`npm install`层就可以使用缓存，从而加快构建速度；
 
+##### Attached & Detached
+默认的`run`命令是attached的，所以如果container一直运行，就会block当前命令行，将container里面命令行的输出打印到外面；
+`-d`指令以detached模式运行，不会block当前命令行；
+`attach`指令可以重新attach；
+`logs`可以看到所有打印过的日志
 
+
+##### deleting Images & containers
+
+```
+docker rm <containerId> <containerId2>
+docker rmi <imageId>
+```
+##### copying files from container
+
+```
+docker cp <host path> <containerId>:<containerFile> # From to
+docker cp <containerId>:<containerFile> <host path> # From to
+```
 #### Data & Volumes
 
 #### Containers & Networking
@@ -274,12 +293,28 @@ CMD ["node", "server.js"]
 ```
 docker ps
 docker ps -a
+docker images
 docker build .
+docker build -t test:latest . 
+docker images -f dangling=true
 docker run <imageId>
 docker run -it <imageId>
-docker run -p <hostPort>:<containerPort> <imageId>
+docker run -p <hostPort>:<containerPort> --name <containerName> <imageId>
+docker run -d <imageId>
+docker run --rm <imageId> # 退出容器时自动删除
 docker rm <containerId>
 docker stop <containerId>
+docker attach <containerId>
+docker logs -f <containerId>
+docker start -a <containerId>
+docker start -a -i <containerId>
+docker rm <containerId> <containerId2> ...
+docker rmi <imageId> <imageId2> ...
+docker image prune # 删除所有没有使用的images
+docker image inspect <imageId> # 查看image相关的信息
+docker cp <host path> <containerId>:<containerFile> # From to
+docker cp <containerId>:<containerFile> <host path> # From to
+--help
 
 ```
 
@@ -291,5 +326,4 @@ COPY . /app
 WORKDIR /app
 RUN 
 CMD
-
 ```
