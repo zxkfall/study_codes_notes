@@ -360,6 +360,16 @@ docker build -t feedback-node:1 --build-arg DEFAULT_PORT=8000 .
 
 #### Containers & Networking
 
+##### Container to www communication & Local machine & Container
+
+与外网进行通信，比如连接数据库，访问网页等
+`App -> Get www.some-api.com -> www`
+
+`host.docker.internal` 在docker那边可以识别为host machine地址
+
+
+
+
 ### Real Life
 
 #### Multi-Container Projects
