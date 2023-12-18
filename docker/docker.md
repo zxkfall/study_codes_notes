@@ -257,7 +257,94 @@ docker rmi <imageId>
 docker cp <host path> <containerId>:<containerFile> # From to
 docker cp <containerId>:<containerFile> <host path> # From to
 ```
+
+##### sharing images
+
+sharing `Dockerfile`，可能需要一些其他的文件
+share a built Image，直接拉取Image就可以了
+1. Docker hub 或者 Private Registry
+
+share
+```
+docker push <imageName>:<version>
+```
+use
+```
+docker pull <imageName>:<version>
+```
+
+```
+docker tag <oldName>:<version> <newName>:<version> # 不会删除旧的，会重新复制一个
+docker login
+docker logout
+```
+
 #### Data & Volumes
+
+Application 只读，包含在Image中
+Temporary App Data Read/Write，包含在容器层
+Permanent App Data Read/Write，使用volumes
+
+##### Volumes(Managed by docker)
+
+```
+docker volume ls
+```
+anonymous volumes 自动删除当容器停止运行时，如果指定了`--rm`参数
+如果没有指定`--rm`参数，即使通过`docker rm <containerID>`删除了container，匿名volume也不会自动删除，可以通过`docker volume rm <volumeName>`or`docker volume prune`命令进行删除，为了保证容器的无状态性
+named volumes 不会自动删除
+必须要在运行时指定volume的name
+```
+docker run -p 3000:80 -d --rm --name fn1 -v feedback:/app/feedback feedback-node:1
+```
+下一次重新启动container的时候，就可以通过feedback这个volume的名字，将对应的volume挂载在对应的容器上
+对于volume，不知道在电脑的哪个位置
+
+##### Bind Mounts(managed by you)
+
+可以绑定到host的某个具体文件夹下面，可以编辑
+获取当前目录，直接以当前目录作为要复制的目录
+```
+macOS / Linux: -v $(pwd):/app
+
+Windows: -v "%cd%":/app
+```
+
+路径最长的最先被使用，对于volume和Mounts
+
+```
+docker run -p 3000:80 -d --rm --name fn1 -v "/Users/xingkun.zhang/Documents/Study/study_codes_notes/docker/data-volumes-01-starting-setup:/app" -v /app/node_modules feedback-node:1
+```
+这里挂载了anonymous volumes和Bind mounted，虽然bind mounted可能会把node moudel覆盖掉，但是由于anonymous volume路径比较长，所以docker会优先使用这个；
+
+anonymous volumes & named volumes & bind Mounts
+```
+docker run -v /app/data
+docker run -v data:/app/data
+docker run -v /path/to/code:/app/data
+```
+
+##### Read Only volumes
+
+volume后面加`:ro`，表示只读
+```
+docker run -p 3000:80 -d --rm --name fn1 -v feedback:/app/feedback -v "/Users/xingkun.zhang/Documents/Study/study_codes_notes/docker/data-volumes-01-starting-setup:/app:ro" -v /app/temp -v /app/node_modules feedback-node:1
+```
+
+##### manage docker volumes
+
+```
+docker volume create <volumeName>
+docker volume inspect <volumeName>
+```
+
+##### .dockerignore
+
+
+##### Environment Variables & ".env"
+
+
+
 
 #### Containers & Networking
 
@@ -302,6 +389,7 @@ docker run -it <imageId>
 docker run -p <hostPort>:<containerPort> --name <containerName> <imageId>
 docker run -d <imageId>
 docker run --rm <imageId> # 退出容器时自动删除
+docker run -p 3000:80 -d --rm --name fn1 -v feedback:/app/feedback feedback-node:1
 docker rm <containerId>
 docker stop <containerId>
 docker attach <containerId>
@@ -314,6 +402,12 @@ docker image prune # 删除所有没有使用的images
 docker image inspect <imageId> # 查看image相关的信息
 docker cp <host path> <containerId>:<containerFile> # From to
 docker cp <containerId>:<containerFile> <host path> # From to
+docker push <imageName>:<version>
+docker pull <imageName>:<version>
+docker tag <oldName>:<version> <newName>:<version> # 不会删除旧的，会重新复制一个
+docker login
+docker logout
+docker volume ls
 --help
 
 ```
