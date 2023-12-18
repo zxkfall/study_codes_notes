@@ -368,7 +368,18 @@ docker build -t feedback-node:1 --build-arg DEFAULT_PORT=8000 .
 `host.docker.internal` 在docker那边可以识别为host machine地址
 
 
+不同容器之间通信，可以通过`host.docker.internal` 以及主机端口映射的方式，也可不开放端口，docker内部网络进行通信
+```
+docker run --rm -d --name mgDB -p 27017:27017 mongo
+docker run --name fn1 -d --rm -p 3000:3000 favorities-node
+```
 
+```
+docker network create f-net
+docker run --rm -d --network f-net --name mgDB mong
+docker run --name fn1 -d --rm --network f-net -p 3000:3000 favorities-node
+```
+容器里请求的host就是f-net
 
 ### Real Life
 
