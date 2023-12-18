@@ -343,8 +343,12 @@ docker volume inspect <volumeName>
 
 ##### Environment Variables & ".env"
 
-
-
+`--env`指定环境变量
+`--env-file` 指定含有环境变量的文件，例如`./.env`
+```
+docker run -p 3000:8000 --env PORT=8000 -d --rm --name fn1 -v feedback:/app/feedback -v "/Users/xingkun.zhang/Documents/Study/study_codes_notes/docker/data-volumes-01-starting-setup:/app:ro" -v /app/temp -v /app/node_modules feedback-node:1
+```
+`docker history <imageName>` 可以看到硬编码到docker中的环境变量，所以
 
 #### Containers & Networking
 
