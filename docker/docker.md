@@ -413,6 +413,15 @@ docker run --name grf --rm -p 3000:3000 -d -v /Users/xingkun.zhang/Documents/Stu
 
 #### Using Docker-Compose
 
+1. 不会改变Image
+2. 不会替代Image或Container
+3. 无法跨机器管理
+
+```
+docker-compose up -d --build
+docker-compose down -v 
+```
+
 #### Utility Containers
 
 #### Deploying Docker Containers
@@ -469,6 +478,8 @@ docker tag <oldName>:<version> <newName>:<version> # 不会删除旧的，会重
 docker login
 docker logout
 docker volume ls
+docker-compose up -d --build
+docker-compose down -v
 --help
 
 ```
