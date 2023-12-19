@@ -385,6 +385,32 @@ docker run --name fn1 -d --rm --network f-net -p 3000:3000 favorities-node
 
 #### Multi-Container Projects
 
+data must persist for db;
+access should be limited for db;
+
+data must persist for backend;
+live source code update for backend;
+
+live source code update for frontend;
+
+```
+docker network create goals-net
+docker run --name mgdb --rm -d --network goals-net -v data:/data/db  mongo
+docker build -t goals-node .
+docker run --rm -d --network goals-net -p 80:80 --name gnb goals-node
+docker build -t goals-react .
+docker run --name grf --rm -p 3000:3000 -d goals-react
+```
+
+
+```
+docker run --name mgdb --rm -d --network goals-net -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=secret mongo
+
+docker run --rm -d -v /Users/xingkun.zhang/Documents/Study/study_codes_notes/docker/multi-01-starting-setup/backend:/app -v logs:/app/logs -v /app/node_modules --network goals-net -p 80:80 --name gnb goals-node
+
+docker run --name grf --rm -p 3000:3000 -d -v /Users/xingkun.zhang/Documents/Study/study_codes_notes/docker/multi-01-starting-setup/frontend/src:/src goals-react
+```
+
 #### Using Docker-Compose
 
 #### Utility Containers
