@@ -424,6 +424,23 @@ docker-compose down -v
 
 #### Utility Containers
 
+Application Containers (Environmnet app) run app use cmd
+Utility Containers (Environment) run custom cmd
+
+```
+docker run -it -d node
+docker exec -it a26c2a npm init
+docker run -it node npm init
+docker build -t node-util .
+docker run -it -v /Users/xingkun.zhang/Documents/Study/study_codes_notes/docker/utility-container:/app node-util npm init
+
+docker build -t test .
+docker run -it -v /Users/xingkun.zhang/Documents/Study/study_codes_notes/docker/utility-container:/app test install express --save
+
+docker-compose run --rm npm install
+```
+
+ 
 #### Deploying Docker Containers
 
 ### Kubernetes
