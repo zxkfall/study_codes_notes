@@ -454,6 +454,39 @@ docker-compose run --rm artisan migrate
  
 #### Deploying Docker Containers
 
+Bind Mounts should not be used in production
+
+Multi-Stage Builds
+解决的问题，比如编译和运行要使用不同的环境，一种解决方式是构建两个image，一个image用来编，获得编译后的代码，另一个image用来负责运行，只需要把编译好的文件放进去就可以；没有Multi-Stage的情况下，需要编写两个dockerfile，生成两个镜像；有了Multi-Stage的情况下，只需要编写一个dockerfile，定义不同的阶段，然后再复制对应的文件就可以了；
+```
+FROM node as build
+
+FROM nginx as deploy
+```
+
+```dockerfile
+FROM node:14-alpine as build
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+FROM nginx:stable-alpine
+
+COPY --from=build /app/build /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+
+```
+
 ### Kubernetes
 
 #### Kubernetes Introduction & Basics
