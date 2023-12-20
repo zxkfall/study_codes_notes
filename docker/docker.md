@@ -491,6 +491,127 @@ CMD ["nginx", "-g", "daemon off;"]
 
 #### Kubernetes Introduction & Basics
 
+deployment scaling and management of containerized applications
+
+1. 容器可能会崩溃或不可用，需要监控容器的状态，从而自动替换；
+2. 流量增加时可能需要自动增加更多的容器；而减少时需要减少容器的数量；
+3. 多个容器按照一定的规则来处理进站流量；
+
+对于ECS：
+1. have health check and automatic re-deployment
+2. Autoscaling
+3. Load balancer
+可以解决上述的一些问题；
+
+但是ECS是AWS专有的服务，并不开源，很多配置是针对ECS的，如果要切换云服务商，需要了解实现原理，才能迁移到另一个类似的服务上，而Kubernates是开源的；
+
+Kubernetes Configuration => any cloud
+可以为不同的服务厂商设置不同的专有配置；
+
+##### 
+
+可以看作是可以在多台机器上使用的docker compose；
+
+Pod(Container), Proxy/Config => WorkerNode(run application,virtual instances)
+
+The Control Plane, various components which help with managing the worker nodes => Master Node()
+
+Master Node 管理多个Pods
+
+Master Node 和多个Pods组成一个Cluster
+
+##### 
+
+Need to do：
+1. 创建Cluster和Node Instances(Worker + Master Nodes)；
+2. 初始化api server，kubelet和其他在node上的服务；
+3. 创建其他可能需要被使用的资源，比如文件系统，负载均衡等；
+
+K8s will do：
+1. 创建并管理pods等；
+2. 监控，重新创建或扩展pods；
+3. 应用配置；
+
+Container1,Container2,Volumes => Pod => Worker Node
+
+Cluster
+
+Node
+ Msater Node
+ Worker Node
+
+Pods
+
+Containers
+
+Services 和代理相关，将其暴露给外界
+
+##### Installation
+
+kubectl to control Cluster
+
+
+install virtualbox if not have parallels
+```
+brew update
+brew install kubectl
+kubectl version --client
+brew install minikube
+minikube start --driver=virtualbox
+minikube status
+minikube dashboard
+```
+
+##### kubernetes objesct
+
+Pods
+Deployments
+Services
+Volume
+...
+
+Objects can be created by Imperatively(命令式) or Declaratively(声明式)
+
+Pod: 
+1. the smallest unit, run one or multipe containers, one pod for one container is common;
+2. shared resources, eg. volumes;
+3. has a cluster-internal IP by default, same pod's container can communicate via localhost;
+4. is ephemeral, 默认不会保存数据，所以需要手动配置以实现数据持久化;
+
+Deployment:
+1. control one or multiple pods
+   - set desired state, then k8s will change actual status
+   - define pods and containers to run and instance numbers
+2. can be paused deleted and rolled back;
+3. can be scaled dynamically(and automartically);
+
+```
+kubectl create deployment first-app --image=kub-first-app # 这样是有问题的，因为image只存在于本地机器，没有存在于远端机器或集群中
+kubectl create deployment first-app --image=nginx # 确保本地没有nginx镜像
+kubectl get deployments
+kubectl get pods
+kubectl delete deployment first-app
+kubectl create deployment first-app --image=nginx
+```
+
+Services:
+1. Pod IP address will change all the time
+2. services group pds with a shared IP
+3. service can allow external access to pods
+
+```
+kubectl create deployment first-app --image=nginx # 确保本地没有nginx镜像
+kubectl expose deployment first-app --type=LoadBalancer --port=80
+kubectl get services
+kubectl service first-app
+
+```
+
+if has problem, execute:
+```
+minikube delete --all --purge
+docker system prune
+```
 #### Kubernetes: Data & Volumes
 
 #### Kubernetes: Networking
