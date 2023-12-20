@@ -603,7 +603,7 @@ Services:
 kubectl create deployment first-app --image=nginx # 确保本地没有nginx镜像
 kubectl expose deployment first-app --type=LoadBalancer --port=80
 kubectl get services
-kubectl service first-app
+minikube service first-app
 
 ```
 
