@@ -655,6 +655,16 @@ Volume defalut lifecycle depends on the Pod lifecycle
 
 ```
 kubectl apply -f=service.yaml -f=deployment.yaml
+kubectl get sc
+
+kubectl apply -f=host-pv.yaml
+kubectl apply -f=host-pvc.yaml
+kubectl apply -f=service.yaml -f=deployment.yaml
+
+kubectl get pv
+kubectl get pvc
+kubectl get deployments
+
 ```
 
 
