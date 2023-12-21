@@ -604,14 +604,46 @@ kubectl create deployment first-app --image=nginx # 确保本地没有nginx镜�
 kubectl expose deployment first-app --type=LoadBalancer --port=80
 kubectl get services
 minikube service first-app
+kubectl scale deployment/first-app --replicas=3
+kubectl scale deployment/first-app --replicas=1
+```
+
 
 ```
+kubectl set image deployment/first-app nginx=nginx:alpine-slim # 更新镜像内容，如果更新失败，不会停掉之前的状态
+kubectl rollout status deployment/first-app # 检查是否更新镜像成功
+kubectl rollout undo deployment/first-app # 回滚状态
+
+kubectl rollout history  deployment/first-app # 查看所有版本
+kubectl rollout history  deployment/first-app --revision=3 # 查看特定版本的信息
+kubectl rollout undo  deployment/first-app --to-revision=2 # 切换到对应版本
+
+
+kubectl delete service first-app
+kubectl delete deployment first-app
+```
+
 
 if has problem, execute:
 ```
 minikube delete --all --purge
 docker system prune
 ```
+
+```
+kubectl create deployment ... 
+kubectl apply -f=config.yaml
+kubectl apply -f=service.yaml
+minikube service backend
+
+kubectl delete -f=deployment.yaml -f=service.yaml
+
+kubectl delete -f=master-deployment.yaml
+kubectl apply -f=deployment.yaml -f=service.yaml
+kubectl delete deployments,services -l group=example
+
+```
+
 #### Kubernetes: Data & Volumes
 
 #### Kubernetes: Networking
