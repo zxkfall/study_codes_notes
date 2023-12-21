@@ -646,6 +646,18 @@ kubectl delete deployments,services -l group=example
 
 #### Kubernetes: Data & Volumes
 
+Local Volumes or Cloud-Provider specific volumes
+
+Volume defalut lifecycle depends on the Pod lifecycle
+1. Supports many different drivers and types
+2. volumes are not necessarily persistent
+3. Volumes survive Container restarts and removals
+
+```
+kubectl apply -f=service.yaml -f=deployment.yaml
+```
+
+
 #### Kubernetes: Networking
 
 #### Deploying a Kubernetes Cluster
@@ -696,6 +708,11 @@ docker-compose up -d --build
 docker-compose down -v
 --help
 
+docker login localhost:8080
+docker login -u <userName> -p <password>
+
+docker build -t zxkfall/kub-data-demo .
+docker push zxkfall/kub-data-demo
 ```
 
 ### Script
