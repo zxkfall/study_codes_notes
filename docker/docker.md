@@ -677,8 +677,8 @@ one pod with two containers
 ```
 docker build -t zxkfall/kub-demo-users .
 docker push zxkfall/kub-demo-users
-kubctl apply -f=users-deployments.yaml
-kubctl apply -f=users-service.yaml
+kubectl apply -f=users-deployments.yaml
+kubectl apply -f=users-service.yaml
 minikub service users-service
 
 ```
@@ -686,7 +686,7 @@ minikub service users-service
 ```
 docker build -t zxkfall/kub-demo-auth .
 docker push zxkfall/kub-demo-auth
-kubctl apply -f=users-deployments.yaml -f=users-service.yaml
+kubectl apply -f=users-deployment.yaml -f=users-service.yaml
 
 ```
 
@@ -701,9 +701,16 @@ ClusterIP,
 ```
 use CoreDNS
 ```
-kubctl get namespace
+kubectl get namespace
 
 auth_service.default
+```
+
+```
+docker build -t zxkfall/kub-demo-tasks .
+docker push zxkfall/kub-demo-tasks
+kubectl apply -f=tasks-deployment.yaml -f=tasks-service.yaml
+
 ```
 
 #### Deploying a Kubernetes Cluster
