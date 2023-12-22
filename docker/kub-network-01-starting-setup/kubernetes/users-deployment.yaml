@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: users-deployments
+  name: users-deployment
 spec:
   replicas: 1
   selector:
@@ -13,5 +13,10 @@ spec:
         app: users
     spec:
       containers:
-      - name: users
-        image: zxkfall/kub-demo-users
+        - name: users
+          image: zxkfall/kub-demo-users:latest
+          env:
+            - name: AUTH_ADDRESS
+              value: localhost
+        - name: auth
+          image: zxkfall/kub-demo-auth:latest

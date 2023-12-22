@@ -672,6 +672,7 @@ kubectl get deployments
 
 #### Kubernetes: Networking
 
+##### Pod internal connect
 one pod with two containers
 ```
 docker build -t zxkfall/kub-demo-users .
@@ -681,6 +682,14 @@ kubctl apply -f=users-service.yaml
 minikub service users-service
 
 ```
+
+```
+docker build -t zxkfall/kub-demo-auth .
+docker push zxkfall/kub-demo-auth
+kubctl apply -f=users-deployments.yaml -f=users-service.yaml
+
+```
+
 
 #### Deploying a Kubernetes Cluster
 
