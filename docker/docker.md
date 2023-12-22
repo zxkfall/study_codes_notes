@@ -717,8 +717,12 @@ kubectl apply -f=tasks-deployment.yaml -f=tasks-service.yaml
 
 ```
 docker build -t zxkfall/kub-demo-frontend .
-kubectl apply -f=frontend-deployment.yaml -f=frontend-service.yaml
+kubectl apply -f=frontend-deployment.yaml -f=frontend-service.yaml -f=
 minikube service frontend-service
+```
+
+```
+kubectl delete -f=users-service.yaml -f=users-deployment.yaml -f=tasks-deployment.yaml -f=tasks-service.yaml -f=auth-deployment.yaml -f=auth-service.yaml -f=frontend-deployment.yaml -f=frontend-service.yaml
 ```
 
 #### Deploying a Kubernetes Cluster
