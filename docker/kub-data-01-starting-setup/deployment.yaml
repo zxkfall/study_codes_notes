@@ -14,7 +14,13 @@ spec:
     spec:
       containers:
         - name: story
-          image: zxkfall/kub-data-demo:3
+          image: zxkfall/kub-data-demo:4
+          env:
+            - name: STORY_FOLDER
+              valueFrom:
+                configMapKeyRef:
+                  name: data-store-env
+                  key: folder
           volumeMounts: # 重启pod后数据依旧存在
             - mountPath: /app/story
               name: story-volume

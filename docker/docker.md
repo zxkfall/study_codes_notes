@@ -660,6 +660,8 @@ kubectl get sc
 kubectl apply -f=host-pv.yaml
 kubectl apply -f=host-pvc.yaml
 kubectl apply -f=service.yaml -f=deployment.yaml
+kubectl apply -f=environment.yaml
+
 
 kubectl get pv
 kubectl get pvc
@@ -669,6 +671,16 @@ kubectl get deployments
 
 
 #### Kubernetes: Networking
+
+one pod with two containers
+```
+docker build -t zxkfall/kub-demo-users .
+docker push zxkfall/kub-demo-users
+kubctl apply -f=users-deployments.yaml
+kubctl apply -f=users-service.yaml
+minikub service users-service
+
+```
 
 #### Deploying a Kubernetes Cluster
 
