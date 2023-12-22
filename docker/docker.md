@@ -690,6 +690,21 @@ kubctl apply -f=users-deployments.yaml -f=users-service.yaml
 
 ```
 
+##### Pod to Pod
+
+use IP Address & Environment
+```
+ClusterIP,
+手动传入service的IP
+或
+在代码中使用特定的环境变量，如AUTH_SERVICE_SERVICE_HOST
+```
+use CoreDNS
+```
+kubctl get namespace
+
+auth_service.default
+```
 
 #### Deploying a Kubernetes Cluster
 
