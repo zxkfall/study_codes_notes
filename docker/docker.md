@@ -713,6 +713,14 @@ kubectl apply -f=tasks-deployment.yaml -f=tasks-service.yaml
 
 ```
 
+##### add frontend
+
+```
+docker build -t zxkfall/kub-demo-frontend .
+kubectl apply -f=frontend-deployment.yaml -f=frontend-service.yaml
+minikube service frontend-service
+```
+
 #### Deploying a Kubernetes Cluster
 
 ### Docker Hub
