@@ -491,6 +491,10 @@ CMD ["nginx", "-g", "daemon off;"]
 
 #### Kubernetes Introduction & Basics
 
+![Alt text](<Screenshot 2023-12-24 at 16.01.19.png>)
+
+
+![Alt text](<Screenshot 2023-12-24 at 16.04.01.png>)
 deployment scaling and management of containerized applications
 
 1. 容器可能会崩溃或不可用，需要监控容器的状态，从而自动替换；
@@ -573,12 +577,14 @@ Volume
 Objects can be created by Imperatively(命令式) or Declaratively(声明式)
 
 Pod: 
+![Alt text](<Screenshot 2023-12-24 at 16.07.16.png>)
 1. the smallest unit, run one or multipe containers, one pod for one container is common;
 2. shared resources, eg. volumes;
 3. has a cluster-internal IP by default, same pod's container can communicate via localhost;
 4. is ephemeral, 默认不会保存数据，所以需要手动配置以实现数据持久化;
 
 Deployment:
+![Alt text](<Screenshot 2023-12-24 at 16.08.13.png>)
 1. control one or multiple pods
    - set desired state, then k8s will change actual status
    - define pods and containers to run and instance numbers
@@ -595,10 +601,14 @@ kubectl create deployment first-app --image=nginx
 ```
 
 Services:
+![Alt text](<Screenshot 2023-12-24 at 16.08.56.png>)
 1. Pod IP address will change all the time
 2. services group pds with a shared IP
 3. service can allow external access to pods
 
+
+##### Example
+![Alt text](<Screenshot 2023-12-24 at 16.10.44.png>)
 ```
 kubectl create deployment first-app --image=nginx # 确保本地没有nginx镜像
 kubectl expose deployment first-app --type=LoadBalancer --port=80
@@ -653,6 +663,10 @@ Volume defalut lifecycle depends on the Pod lifecycle
 2. volumes are not necessarily persistent
 3. Volumes survive Container restarts and removals
 
+##### Persistent Volume(PV) & Persistent Volume Claim(PVC)
+
+![Alt text](<Screenshot 2023-12-24 at 16.14.48.png>)
+
 ```
 kubectl apply -f=service.yaml -f=deployment.yaml
 kubectl get sc
@@ -669,10 +683,16 @@ kubectl get deployments
 
 ```
 
+##### Volume difference
+
+![Alt text](<Screenshot 2023-12-24 at 16.19.37.png>)
 
 #### Kubernetes: Networking
 
 ##### Pod internal connect
+
+![Alt text](<Screenshot 2023-12-24 at 16.22.57.png>)
+
 one pod with two containers
 ```
 docker build -t zxkfall/kub-demo-users .
@@ -691,6 +711,8 @@ kubectl apply -f=users-deployment.yaml -f=users-service.yaml
 ```
 
 ##### Pod to Pod
+
+![Alt text](<Screenshot 2023-12-24 at 16.24.25.png>)
 
 use IP Address & Environment
 ```
