@@ -802,6 +802,20 @@ docker build -t zxkfall/kub-data-demo .
 docker push zxkfall/kub-data-demo
 ```
 
+```
+brew update
+brew install kubectl
+kubectl version --client
+brew install minikube
+minikube start --driver=virtualbox
+minikube status
+minikube dashboard
+
+
+
+
+```
+
 ### Script
 ```
 FROM
