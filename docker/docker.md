@@ -755,6 +755,67 @@ kubectl delete -f=users-service.yaml -f=users-deployment.yaml -f=tasks-deploymen
 
 ### Kubernetes
 
+### Helm
+
+#### Example
+```
+helm install apache bitname/apache -namespace=web
+helm upgrade apache bitname/apache -namespace=web
+helm rollback apache 1 -namespace=web
+helm uninstall apache
+
+```
+
+#### Quick Start
+
+```
+helm repo list
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo list
+helm repo remove bitnami
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+
+Search the repository:
+helm search repo mysql
+helm search repo database
+helm search repo database --versions
+
+
+Install a package:
+kubectl get pods
+(Below Two commands - In a Different Shell/Commandline window/tab)
+minikube ssh
+docker images
+helm install mydb bitnami/mysql
+Check the cluster:
+kubectl get pods
+minikube ssh
+docker images
+To check the installation status:
+helm status mydb
+
+
+
+--------------------------------------------
+
+To Upgrade:
+ROOT_PASSWORD=$(kubectl get secret --namespace default mydb-mysql -o jsonpath="{.data.mysql-root-password}" | base64 --decode)
+helm upgrade --namespace default mysql-release bitnami/mysql --set auth.rootPassword=$ROOT_PASSWORD
+-------
+helm uninstall mysql-release
+```
+
+
+```
+helm install mydb bitnami/mysql
+kubectl create ns <name_space>
+helm list --namespace <name_space>
+helm uninstall <package_name> -n <name_space>
+
+```
+https://www.bilibili.com/video/BV15o4y1J7pp/?spm_id_from=333.337.search-card.all.click&vd_source=e4c4d0745782760f3c23c03dc73e3ec3
+
 
 ### COMMAND
 
